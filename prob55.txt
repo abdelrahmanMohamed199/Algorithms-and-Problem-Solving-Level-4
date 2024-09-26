@@ -1,0 +1,27 @@
+dmy::stDate vacationReturnDate(dmy::stDate startDate, short numOfVacationDays)
+{
+    while (numOfVacationDays > 0)
+    {
+        if (dmy::isBusinessDay(startDate))
+            numOfVacationDays--;
+        startDate = dmy::increaseDateByOneDay(startDate);
+    }
+    // check if the return date is weekend
+    while (isWeekEnd(startDate))
+    {
+    startDate = increaseDateByOneDay(startDate);
+    }
+    return startDate;
+}
+
+int main()
+{ 
+    cout << "\nVacation starts:\n";
+    dmy::stDate start = dmy::readDate();
+    short vacationDays = tes::readPositiveNum("Please Enter Vacation Days?");
+    start = vacationReturnDate(start, vacationDays);
+    cout << "\n\nReturn Date: " << dmy::dayName(dmy::dayOfWeekOrder(start)) << " , ";
+    printf("%d/%d/%d\n", start.day, start.month, start.year);
+         
+    return 0;
+}

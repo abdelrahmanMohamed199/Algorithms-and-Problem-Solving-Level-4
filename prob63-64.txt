@@ -1,0 +1,38 @@
+string readStringDate()
+{
+    string date = "";
+    cout << "Please Enter Date DD/MM/YYYY? ";
+    getline(cin >> ws, date);
+    return date;
+}
+
+dmy::stDate stringToDate(string str)
+{
+    dmy::stDate date; 
+    short pos = str.find('/');
+    date.day = stoi(str.substr(0, pos));
+    str.erase(0, pos + 1);
+    pos = str.find('/');
+    date.month = stoi(str.substr(0, pos));
+    str.erase(0, pos + 1);
+    date.year = stoi(str);
+    return date;
+}
+
+string dateToString(dmy::stDate date)
+{    
+    return to_string(date.day) + "/" + to_string(date.month) + "/" + to_string(date.year);    
+}
+
+
+int main()
+{ 
+    string strDate = readStringDate();
+    dmy::stDate date = stringToDate(strDate);
+    cout << "\nDay: " << date.day << endl;
+    cout << "Month: " << date.month << endl;
+    cout << "Year: " << date.year << endl;
+    cout << "\nYou Entered: " << dateToString(date) << endl;
+    cout << strDate;
+    return 0;
+}

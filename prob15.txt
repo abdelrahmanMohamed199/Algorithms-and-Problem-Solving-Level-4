@@ -1,0 +1,24 @@
+bool isLastDayInMonth(stDate date)
+{
+    return (date.day == numOfDaysInMonth(date.year, date.month));
+}
+
+bool isLastMonthInYear(short month)
+{
+    return (month == 12);
+}
+
+int main()
+{ 
+    stDate date1 = readDate();
+    
+    if (isLastDayInMonth(date1))
+        cout << "\nYes, Day is last day in month.\n";
+    else
+        cout << "\nNo, Day is not last day in month.\n";
+    if (isLastMonthInYear(date1.month))
+        cout << "Yes, Month is last month in year.\n";
+    else
+        cout << "No, Month is not last month in year.\n";
+    return 0;
+}

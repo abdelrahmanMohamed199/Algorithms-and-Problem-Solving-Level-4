@@ -1,0 +1,35 @@
+string convertNumToText(long long num)
+{ 
+    if (num == 0)
+        return "";
+    else if (num >= 1 && num <= 19)
+    {
+        string arr[] = { "", "One", "Two", "Three", "Four", "Five", "Six", "Seven",
+               "Eight", "Nine", "Ten","Eleven", "Twelve", "Thirteen", "Fourteen",
+               "Fifteen","Sixteen", "Seventeen", "Eighteen", "Nineteen" };
+        return arr[num] + " ";
+    }
+    else if (num >= 20 && num <= 99)
+    {
+        string arr[] = { "", "", "Twenty", "Thirty", "Fourty",
+                          "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
+        return arr[num / 10] + " " + convertNumToText(num % 10);
+    }
+    else if (num >= 100 && num <= 999)
+        return convertNumToText(num / 100) + "Hundred " + convertNumToText(num % 100);
+    else if (num >= 1000 && num <= 999999)
+        return convertNumToText(num / 1000) + "Thousand and " + convertNumToText(num % 1000);
+    else if (num >= 1000000 && num <= 999999999)
+        return convertNumToText(num / 1000000) + "Million " + convertNumToText(num % 1000000);
+    else
+        return convertNumToText(num / 1000000000) + "Billion " + convertNumToText(num % 1000000000);
+}
+
+int main()
+{ 
+    long long num;
+    cout << "Please enter a number? ";
+    cin >> num;
+    cout << convertNumToText(num);
+    return 0;
+}

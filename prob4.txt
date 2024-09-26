@@ -1,0 +1,31 @@
+short numOfDaysInYear(short year)
+{
+    return (tes::isLeapYear(year)) ? 366 : 365;
+}
+
+short numOfHoursInYear(short year)
+{
+    return numOfDaysInYear(year) * 24;
+}
+
+int numOfMinutesInYear(short year)
+{
+    return numOfHoursInYear(year) * 60;
+}
+
+int numOfSecondsInYear(short year)
+{
+    return numOfMinutesInYear(year) * 60;
+}
+
+int main()
+{ 
+    short year;
+    cout << "Please enter a year? ";
+    cin >> year;
+    printf("\nNumber of days in year [%d] is %d\n", year, numOfDaysInYear(year));
+    printf("Number of hours in year [%d] is %d\n", year, numOfHoursInYear(year));
+    printf("Number of minutes in year [%d] is %d\n", year, numOfMinutesInYear(year));
+    printf("Number of seconds in year [%d] is %d\n", year, numOfSecondsInYear(year));
+    return 0;
+}

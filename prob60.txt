@@ -1,0 +1,22 @@
+bool isDateWithinThePeriod(dmy::stDatePeriod period, dmy::stDate date)
+{
+    return !(dmy::isDate1BeforeDate2(date, period.start) || dmy::isDate1AfterDate2(date, period.end));
+}
+
+int main()
+{ 
+    dmy::stDatePeriod period;
+    cout << "Enter Period:";
+    cout << "\nEnter Start Date:\n\n";
+    period.start = dmy::readDate();
+    cout << "\n\nEnter End Date:\n\n";
+    period.end = dmy::readDate();
+    cout << "\nEnter Date to Check:\n";
+    dmy::stDate date = dmy::readDate();
+    if (isDateWithinThePeriod(period, date))
+        cout << "\nYes, Date is within the period\n";
+    else
+        cout << "\nNo, Date is not within the period\n";
+         
+    return 0;
+}

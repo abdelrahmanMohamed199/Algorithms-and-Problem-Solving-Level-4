@@ -1,0 +1,18 @@
+bool isValidDate(dmy::stDate date)
+{
+    return !((date.day < 1 || date.day > dmy::numOfDaysInMonth(date.year, date.month)) 
+           || (date.month < 1 || date.month > 12) || date.year < 1);
+}
+
+
+int main()
+{ 
+    dmy::stDate date = dmy::readDate();
+
+    if (isValidDate(date))
+        cout << "\nYes, Date is valid\n";
+    else
+        cout << "\nNo, Date is invalid\n";
+
+    return 0;
+}

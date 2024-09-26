@@ -1,0 +1,25 @@
+short actualVacationDays(dmy::stDate start, dmy::stDate end)
+{
+    short daysCount = 0;
+    while (dmy::isDate1BeforeDate2(start, end))
+    {
+        if (dmy::isBusinessDay(start))
+            daysCount++;
+        start = dmy::increaseDateByOneDay(start);        
+    }
+    return daysCount;
+}
+
+int main()
+{ 
+    cout << "\nVacation starts:\n";
+    dmy::stDate start = dmy::readDate();
+    cout << "\n\nVacation ends:\n";
+    dmy::stDate end = dmy::readDate();
+    cout << "\n\nVacation from: " << dmy::dayName(dmy::dayOfWeekOrder(start)) << " , ";
+    printf("%d/%d/%d\n", start.day, start.month, start.year);
+    cout << "\n\nVacation to: " << dmy::dayName(dmy::dayOfWeekOrder(end)) << " , ";
+    printf("%d/%d/%d\n", end.day, end.month, end.year);
+    printf("\nActual Vacation Days is: %d\n", actualVacationDays(start, end));
+    return 0;
+}

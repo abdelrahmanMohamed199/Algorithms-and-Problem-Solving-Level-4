@@ -1,0 +1,74 @@
+short orderOfDayInYear(short day, short month, short year)
+{
+    short totalDays = day;
+    for (int i = 1; i < month; i++)
+    {
+        totalDays += numOfDaysInMonth(year, i);
+    }
+    return totalDays;
+}
+
+bool isDate1BeforeDate2(stDate date1, stDate date2)
+{
+    return (date1.year < date2.year) ? true 
+           : (date1.year == date2.year) ? (date1.month < date2.month) ? true 
+           : (date1.month == date2.month) ? (date1.day < date2.day) : false : false;
+}
+
+bool isDate1EqualDate2(stDate date1, stDate date2)
+{
+    return (date1.year == date2.year) ? (date1.month == date2.month) ? (date1.day == date2.day) : false : false;
+}
+
+int differenceBetween2Dates(stDate date1, stDate date2, bool includeEndDay = false)
+{
+    int days = 0;
+    short dayOrder1 = orderOfDayInYear(date1.day, date1.month, date1.year);
+    short dayOrder2 = orderOfDayInYear(date2.day, date2.month, date2.year);
+    short remainingDays = 0;
+    if (!isDate1BeforeDate2(date1, date2) || isDate1EqualDate2(date1, date2))
+    {
+        return 0;
+    }
+    if (date1.year == date2.year)
+    {
+        days = dayOrder2 - dayOrder1;
+    }
+    
+    if (date1.year != date2.year)
+    {
+        remainingDays = tes::numOfDaysInYear(date1.year) - dayOrder1;
+        for (int i = 1; i < (date2.year - date1.year); i++)
+        {
+            
+            days += tes::numOfDaysInYear(date1.year + i);
+        }
+        days += remainingDays + dayOrder2;
+    }
+    return includeEndDay ? ++days : days;
+}
+
+int main()
+{ 
+    stDate date1 = readDate();
+    stDate date2 = readDate();
+
+    printf("\nDifference is: %d day(s)\n", differenceBetween2Dates(date1, date2));
+    printf("\nDifference (including end day) is: %d day(s)\n", differenceBetween2Dates(date1, date2, true));
+    return 0;
+}
+
+##########################################################################
+
+another solution:
+
+int differenceBetween2Dates(stDate date1, stDate date2, bool includeEndDay = false)
+{
+    int days = 0;
+    while (isDate1BeforeDate2(date1, date2))
+    {
+        days++;
+        date1 = increaseDateByOneDay(date1);
+    }
+    return includeEndDay ? days + 1 : days;
+}

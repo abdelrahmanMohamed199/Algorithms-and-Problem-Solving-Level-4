@@ -1,0 +1,15 @@
+bool isDate1EqualDate2(stDate date1, stDate date2)
+{
+    return (date1.year == date2.year) ? (date1.month == date2.month) ? (date1.day == date2.day) : false : false;
+}
+
+int main()
+{ 
+    stDate date1 = readDate();
+    stDate date2 = readDate();
+    if (isDate1EqualDate2(date1, date2))
+        cout << "\nYes, Date 1 is equal to Date 2.\n";
+    else
+        cout << "\nNo, Date 1 is not equal to Date 2.\n";
+    return 0;
+}

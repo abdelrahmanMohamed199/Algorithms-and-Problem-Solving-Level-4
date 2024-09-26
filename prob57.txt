@@ -1,0 +1,30 @@
+#include <iostream>
+#include "myTestLib.h"
+#include "myDateLib.h"
+
+using namespace std;
+
+enum enCompareDates {date1BeforeDate2 = -1, date1EqualDate2 = 0, date1AfterDate2 = 1};
+
+enCompareDates compareDates(dmy::stDate date1, dmy::stDate date2)
+{
+    if (dmy::isDate1BeforeDate2(date1, date2))
+        return enCompareDates::date1BeforeDate2;
+
+    if (dmy::isDate1EqualDate2(date1, date2))
+        return enCompareDates::date1EqualDate2;
+
+    return enCompareDates::date1AfterDate2;
+}
+
+int main()
+{ 
+    cout << "\nEnter Date1:\n";
+    dmy::stDate date1 = dmy::readDate();
+    cout << "\nEnter Date2:\n";
+    dmy::stDate date2 = dmy::readDate();
+    printf("\n\nCompare Result = %d\n", compareDates(date1, date2));
+         
+    return 0;
+}
+

@@ -1,0 +1,23 @@
+string formatDate(dmy::stDate date, string formatting = "dd/mm/yyyy")
+{
+    string strDate = formatting; 
+    strDate.replace(strDate.find("dd"), 2, to_string(date.day));
+    strDate.replace(strDate.find("mm"), 2, to_string(date.month));
+    strDate.replace(strDate.find("yyyy"), 4, to_string(date.year));
+    return strDate;
+}
+
+
+int main()
+{ 
+    string strDate = readStringDate();
+    dmy::stDate date = stringToDate(strDate);
+    cout << endl << formatDate(date) << endl << endl;
+    cout << formatDate(date, "yyyy/dd/mm") << endl << endl;
+    cout << formatDate(date, "mm/dd/yyyy") << endl << endl;
+    cout << formatDate(date, "mm-dd-yyyy") << endl << endl;
+    cout << formatDate(date, "dd-mm-yyyy") << endl << endl;
+    cout << formatDate(date, "Day:dd, Month:mm, Year:yyyy") << endl << endl;
+    
+    return 0;
+}

@@ -1,0 +1,67 @@
+short dayOfWeekOrder(short year, short month, short day)
+{
+    short a = (14 - month) / 12;
+    short y = year - a;
+    short m = month + 12 * a - 2;
+    return (day + y + (y / 4) - (y / 100) + (y / 400) + (31 * m) / 12) % 7;
+}
+
+short numOfDaysInMonth(short year, short month)
+{
+    if (month < 1 || month > 12)
+        return 0;
+    short numOfDays[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
+    return month == 2 ? (tes::isLeapYear(year) ? 29 : 28) : numOfDays[month];
+}
+
+void fillCalendar(short year, short month, string calendar[6][7])
+{
+    short start = dayOfWeekOrder(year, month, 1);
+    short nDays = numOfDaysInMonth(year, month);   
+    short d = 1;
+    for (int i = 0; i < 6; i++)
+    {
+        for (int j = 0; j < 7; j++)
+        {
+            if (i == 0 && j < start)
+                calendar[i][j] = "";
+            else
+            {
+                if (d <= nDays)
+                {
+                    calendar[i][j] = to_string(d);
+                    d++;
+                }
+                else
+                    calendar[i][j] = "";
+            }
+        }
+    }
+}
+
+void printMonthCalendar(short year, short month)
+{
+    string calendar[6][7];
+    string months[] = { "","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec" };
+    fillCalendar(year, month, calendar);
+    cout << "\n  _______________" << months[month] << "_______________\n";
+    cout << "\n  Sun  Mon  Tue  Wed  Thu  Fri  Sat\n";
+    for (int i = 0; i < 6; i++)
+    {
+        for (int j = 0; j < 7; j++)
+        {
+            cout << "  " << setw(3) << calendar[i][j];
+        }
+        cout << endl;
+    }
+    cout << "  _________________________________\n";
+}
+
+int main()
+{ 
+    short year = tes::readNum("Please enter a year?");
+    short month = tes::readNum("Please enter a month");
+    
+    printMonthCalendar(year, month);
+    return 0;
+}

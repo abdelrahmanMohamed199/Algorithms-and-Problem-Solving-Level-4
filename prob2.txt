@@ -1,0 +1,16 @@
+bool isLeapYear(int year)
+{
+    return year % 400 == 0 ? true : (year % 4 == 0 && year % 100 != 0) ? true : false;
+}
+
+int main()
+{ 
+    int year;
+    cout << "Please enter a year? ";
+    cin >> year;
+    if (isLeapYear(year))
+        cout << "\nIt is a leap year.";
+    else
+        cout << "\nIt is not a leap year.";
+    return 0;
+}

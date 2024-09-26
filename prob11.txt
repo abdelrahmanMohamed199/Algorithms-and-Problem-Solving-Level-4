@@ -1,0 +1,85 @@
+short numOfDaysInMonth(short year, short month)
+{
+    if (month < 1 || month > 12)
+        return 0;
+    short numOfDays[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
+    return month == 2 ? (tes::isLeapYear(year) ? 29 : 28) : numOfDays[month];
+}
+
+short totalDaysFromTheBeginningOfTheYear(short day, short month, short year)
+{
+    short totalDays = day;
+    for (int i = 1; i < month; i++)
+    {
+        totalDays += numOfDaysInMonth(year, i);
+    }
+    return totalDays;
+}
+
+void convertTotalDaysToDate(short totalDays, short year)
+{
+    short month = ceil(float(totalDays) / 31);
+    short day;
+    short c = 0;
+    for (int i = 1; i < month; i++)
+    {
+        c += numOfDaysInMonth(year, i);
+    }
+    day = totalDays - c;
+    printf("\n\nDate for [%d] is: %d/%d/%d\n", totalDays, day, month, year);
+}
+
+int main()
+{ 
+    short day = tes::readNum("Please enter a day");
+    short month = tes::readNum("Please enter a month");
+    short year = tes::readNum("Please enter a year?"); 
+    short totalDays = totalDaysFromTheBeginningOfTheYear(day, month, year);
+    printf("\nNumber of days from the beginning of the year is %d", totalDays);
+    convertTotalDaysToDate(totalDays, year);
+    return 0;
+}
+
+######################################################################################
+another solution:
+
+struct stDate
+{
+    short year, month, day;
+};
+
+stDate getDateFromDayOrderInYear(short dayOrder, short year)
+{
+    stDate date;
+    date.year = year;
+    date.month = 1;
+    short remainingDays = dayOrder;
+    short nDaysInMonth;
+    while (true)
+    {
+        nDaysInMonth = numOfDaysInMonth(year, date.month);
+        if (remainingDays > nDaysInMonth)
+        {
+            remainingDays -= nDaysInMonth;
+            date.month++;
+        }
+        else
+        {
+            date.day = remainingDays;
+            break;
+        }
+    }
+    return date;
+}
+
+int main()
+{ 
+    short day = tes::readNum("Please enter a day");
+    short month = tes::readNum("Please enter a month");
+    short year = tes::readNum("Please enter a year?"); 
+    short totalDays = totalDaysFromTheBeginningOfTheYear(day, month, year);
+    printf("\nNumber of days from the beginning of the year is %d", totalDays);
+    stDate date = getDateFromDayOrderInYear(totalDays, year);
+    printf("\n\nDate for [%d] is %d/%d/%d\n", totalDays, day, month, year);
+    return 0;
+}

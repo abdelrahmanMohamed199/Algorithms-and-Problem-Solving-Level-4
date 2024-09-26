@@ -1,0 +1,12 @@
+int main()
+{ 
+    dmy::stDatePeriod period;
+    cout << "\nEnter Start Date:\n\n";
+    period.start = dmy::readDate();
+    cout << "\n\nEnter End Date:\n\n";
+    period.end = dmy::readDate();
+    printf("\n\nPeriod Length is : %d\n", dmy::differenceBetween2Dates(period.start, period.end));
+    printf("Period Length (include end day) is : %d\n", dmy::differenceBetween2Dates(period.start, period.end, true));
+         
+    return 0;
+}

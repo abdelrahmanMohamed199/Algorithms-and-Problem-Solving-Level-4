@@ -1,0 +1,141 @@
+struct stDate
+{
+    short year, month, day;
+};
+
+stDate readDate()
+{
+    stDate date;
+    date.day = tes::readNum("Please enter a day");
+    date.month = tes::readNum("Please enter a month");
+    date.year = tes::readNum("Please enter a year?");
+    return date;
+}
+
+bool isLeapYear(short year)
+{
+    return (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);
+}
+
+short numOfDaysInMonth(short year, short month)
+{
+    if (month < 1 || month > 12)
+        return 0;
+    short numOfDays[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
+    return month == 2 ? (isLeapYear(year) ? 29 : 28) : numOfDays[month];
+}
+
+bool isDate1BeforeDate2(stDate date1, stDate date2)
+{
+    return (date1.year < date2.year) ? true
+        : (date1.year == date2.year) ? (date1.month < date2.month) ? true
+        : (date1.month == date2.month) ? (date1.day < date2.day) : false : false;
+}
+
+bool isDate1EqualDate2(stDate date1, stDate date2)
+{
+    return (date1.year == date2.year) ? (date1.month == date2.month) ? (date1.day == date2.day) : false : false;
+}
+
+bool isLastDayInMonth(stDate date)
+{
+    return (date.day == numOfDaysInMonth(date.year, date.month));
+}
+
+bool isLastMonthInYear(short month)
+{
+    return (month == 12);
+}
+
+stDate increaseDateByOneDay(stDate date)
+{
+    if (isLastDayInMonth(date))
+    {
+        if (isLastMonthInYear(date.month))
+        {
+            date.year++;
+            date.month = 1;
+            date.day = 1;
+        }
+        else
+        {
+            date.month++;
+            date.day = 1;
+        }
+    }
+    else
+    {
+        date.day++;
+    }
+    return date;
+}
+
+int differenceBetween2Dates(stDate date1, stDate date2, bool includeEndDay = false)
+{
+    int days = 0;
+    if (isDate1EqualDate2(date1, date2))
+    {
+        return 0;
+    }
+    if (isDate1BeforeDate2(date1, date2))
+    {
+        while (isDate1BeforeDate2(date1, date2))
+        {
+            days++;
+            date1 = increaseDateByOneDay(date1);
+        }
+        return includeEndDay ? days + 1 : days;
+    }
+    else
+    {
+        while (isDate1BeforeDate2(date2, date1))
+        {
+            days--;
+            date2 = increaseDateByOneDay(date2);
+        }
+        return includeEndDay ? days - 1 : days;
+    }
+}
+
+int main()
+{ 
+    
+    stDate date1 = readDate();
+    stDate date2 = readDate();
+    printf("\nDifference is: %d Day(s)\n", differenceBetween2Dates(date1, date2));
+    printf("\nDifference (Including End Day) is: %d Day(s)\n", differenceBetween2Dates(date1,date2,true));
+    return 0;
+}
+
+#########################################################################
+
+another solution:
+
+void swapDates(stDate& date1, stDate& date2)
+{
+    stDate tempDate;
+    tempDate = date1;
+    date1 = date2;
+    date2 = tempDate;
+}
+
+int diff2Dates(stDate date1, stDate date2, bool includeEndDay = false)
+{
+    int days = 0;
+    short swapValueFlag = 1;
+    if (isDate1EqualDate2(date1, date2))
+    {
+        return days;
+    }
+    if (!isDate1BeforeDate2(date1, date2))
+    {
+        swapDates(date1, date2);
+        swapValueFlag = -1;
+    }
+    while (isDate1BeforeDate2(date1, date2))
+    {
+        days++;
+        date1 = increaseDateByOneDay(date1);
+    }
+    return includeEndDay ? (days + 1) * swapValueFlag : days * swapValueFlag;
+}

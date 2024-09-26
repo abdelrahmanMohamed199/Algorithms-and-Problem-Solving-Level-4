@@ -1,0 +1,35 @@
+short numOfDaysInMonth(short year, short month)
+{
+    if (month < 1 || month > 12)
+        return 0;
+    if (tes::isLeapYear(year))
+        return month == 2 ? 29 : (month == 4 || month == 6 || month == 9 || month == 11) ? 30 : 31;
+    else
+        return month == 2 ? 28 : (month == 4 || month == 6 || month == 9 || month == 11) ? 30 : 31;
+}
+
+short numOfHoursInMonth(short year, short month)
+{
+    return numOfDaysInMonth(year, month) * 24;
+}
+
+int numOfMinutesInmonth(short year, short month)
+{
+    return numOfHoursInMonth(year, month) * 60;
+}
+
+int numOfSecondsInmonth(short year, short month)
+{
+    return numOfMinutesInmonth(year, month) * 60;
+}
+
+int main()
+{ 
+    short year = tes::readNum("Please enter a year?");
+    short month = tes::readNum("Please enter a month");
+    printf("\nNumber of days in month [%d] is %d\n", month, numOfDaysInMonth(year, month));
+    printf("Number of hours in month [%d] is %d\n", month, numOfHoursInMonth(year, month));
+    printf("Number of minutes in month [%d] is %d\n", month, numOfMinutesInmonth(year, month));
+    printf("Number of seconds in month [%d] is %d\n", month, numOfSecondsInmonth(year, month));
+    return 0;
+}

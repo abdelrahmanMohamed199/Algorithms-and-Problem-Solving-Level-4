@@ -1,0 +1,42 @@
+#include <iostream>
+#include "myTestLib.h"
+#include "myDateLib.h"
+
+using namespace std;
+
+int main()
+{ 
+    dmy::stDate date = dmy::readDate();
+
+    cout << "\nDate After : \n\n";
+    date = dmy::decreaseDateByOneDay(date);
+    printf("01- Subtracting one day is : %d/%d/%d\n", date.day, date.month, date.year);
+    date = dmy::decreaseDateByXDays(date, 10);
+    printf("02- Subtracting %d days is : %d/%d/%d\n", 10, date.day, date.month, date.year);
+    date = dmy::decreaseDateByOneWeek(date);
+    printf("03- Subtracting one week is : %d/%d/%d\n", date.day, date.month, date.year);
+    date = dmy::decreaseDateByXWeeks(date, 10);
+    printf("04- Subtracting %d weeks is : %d/%d/%d\n", 10, date.day, date.month, date.year);
+    date = dmy::decreaseDateByOneMonth(date);
+    printf("05- Subtracting one month is : %d/%d/%d\n", date.day, date.month, date.year);
+    date = dmy::decreaseDateByXMonths(date, 5);
+    printf("06- Subtracting %d months is : %d/%d/%d\n", 5, date.day, date.month, date.year);
+    date = dmy::decreaseDateByOneYear(date);
+    printf("07- Subtracting one year is : %d/%d/%d\n", date.day, date.month, date.year);
+    date = dmy::decreaseDateByXYears(date, 10);
+    printf("08- Subtracting %d years is : %d/%d/%d\n", 10, date.day, date.month, date.year);
+    date = dmy::decreaseDateByXYearsFaster(date, 10);
+    printf("09- Subtracting %d years (faster) is : %d/%d/%d\n", 10, date.day, date.month, date.year);
+    date = dmy::decreaseDateByOneDecade(date);
+    printf("10- Subtracting one decade is : %d/%d/%d\n", date.day, date.month, date.year);
+    date = dmy::decreaseDateByXDecades(date, 10);
+    printf("11- Subtracting %d decades is : %d/%d/%d\n", 10, date.day, date.month, date.year);
+    date = dmy::decreaseDateByXDecadesFaster(date, 10);
+    printf("12- Subtracting %d decades (faster) is : %d/%d/%d\n", 10, date.day, date.month, date.year);
+    date = dmy::decreaseDateByOneCentury(date);
+    printf("13- Subtracting one century is : %d/%d/%d\n", date.day, date.month, date.year);
+    date = dmy::decreaseDateByOneMillennium(date);
+    printf("14- Subtracting one millennium is : %d/%d/%d\n", date.day, date.month, date.year);
+    return 0;
+}
+

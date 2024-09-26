@@ -1,0 +1,28 @@
+bool areTheyOverlap(stDatePeriod period1, stDatePeriod period2)
+{
+    return !(dmy::isDate1BeforeDate2(period1.end, period2.start) 
+           || dmy::isDate1AfterDate2(period1.start, period2.end));
+}
+
+int main()
+{ 
+    stDatePeriod period1, period2;
+    cout << "\nEnter Period 1:\n";
+    cout << "Enter Start Date:\n";
+    period1.start = dmy::readDate();
+    cout << "\nEnter End Date:\n";
+    period1.end = dmy::readDate();
+
+    cout << "\nEnter Period 2:\n";
+    cout << "Enter Start Date:\n";
+    period2.start = dmy::readDate();
+    cout << "\nEnter End Date:\n";
+    period2.end = dmy::readDate();
+
+    if (areTheyOverlap(period1, period2))
+        cout << "\n\nYes, Periods Overlap\n";
+    else
+        cout << "\n\nNo, Periods not Overlap\n";
+         
+    return 0;
+}

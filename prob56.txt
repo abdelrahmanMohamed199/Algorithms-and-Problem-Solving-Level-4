@@ -1,0 +1,22 @@
+#include <iostream>
+#include "myTestLib.h"
+#include "myDateLib.h"
+
+using namespace std;
+
+
+
+int main()
+{ 
+    cout << "\nEnter Date1:";
+    dmy::stDate date1 = dmy::readDate();
+    cout << "\nEnter Date2:";
+    dmy::stDate date2 = dmy::readDate();
+    if (dmy::isDate1AfterDate2(date1, date2))
+        cout << "\n\nYes, Date1 is after Date2.\n";
+    else
+        cout << "\n\nNo, Date1 is not after Date2.\n";
+         
+    return 0;
+}
+

@@ -1,0 +1,60 @@
+short numOfDaysInMonth(short year, short month)
+{
+    if (month < 1 || month > 12)
+        return 0;
+    short numOfDays[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
+    return month == 2 ? (tes::isLeapYear(year) ? 29 : 28) : numOfDays[month];
+}
+
+short dayOfWeekOrder(short year, short month, short day)
+{
+    short a = (14 - month) / 12;
+    short y = year - a;
+    short m = month + 12 * a - 2;
+    return (day + y + (y / 4) - (y / 100) + (y / 400) + (31 * m) / 12) % 7;
+}
+
+string monthName(short mon)
+{
+    string months[] = { "","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec" };
+    return months[mon];
+}
+
+void printMonthCalendar(short year, short month)
+{
+    short nDaysInMon = numOfDaysInMonth(year, month);
+    short firstDay = dayOfWeekOrder(year, month, 1);
+    short c = firstDay;   
+    cout << "\n  _______________" << monthName(month) << "_______________\n";
+    cout << "\n  Sun  Mon  Tue  Wed  Thu  Fri  Sat\n";
+    for (int i = 0; i < firstDay; i++)
+        cout << "     ";
+    for (int j = 1; j <= nDaysInMon; j++)
+    {
+        printf("%5d", j);
+        if (++c == 7)
+        {
+            cout << endl;
+            c = 0;
+        }
+    }
+    cout << "\n  _________________________________\n";
+}
+
+void printYearCalendar(short year)
+{
+    cout << "\n  _________________________________\n";
+    printf("\n\t  Calendar - %d", year);
+    cout << "\n  _________________________________\n";
+    for (short i = 1; i < 13; i++)
+    {
+        printMonthCalendar(year, i);
+    }
+}
+
+int main()
+{ 
+    short year = tes::readNum("Please enter a year?");    
+    printYearCalendar(year);
+    return 0;
+}

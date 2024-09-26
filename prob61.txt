@@ -1,0 +1,44 @@
+short countOverlapDays(dmy::stDatePeriod period1, dmy::stDatePeriod period2)
+{
+    short days = 1;
+    if (!dmy::areTheyOverlap(period1, period2))
+        return 0;
+    
+    if (dmy::isDateInPeriod(period1, period2.start))
+    {
+        while (dmy::isDate1BeforeDate2(period2.start, period1.end) && dmy::isDate1BeforeDate2(period2.start, period2.end))
+        {
+            days++;
+            period2.start = dmy::increaseDateByOneDay(period2.start);
+        }
+    }
+    else
+    {
+        while (dmy::isDate1BeforeDate2(period1.start, period1.end) && dmy::isDate1BeforeDate2(period1.start, period2.end))
+        {
+            days++;
+            period1.start = dmy::increaseDateByOneDay(period1.start);
+        }
+    }
+    return days;
+}
+
+int main()
+{ 
+    dmy::stDatePeriod period1, period2;
+    cout << "Enter Period 1:";
+    cout << "\n\nEnter Start Date:\n";
+    period1.start = dmy::readDate();
+    cout << "\n\nEnter End Date:\n";
+    period1.end = dmy::readDate();
+
+    cout << "\nEnter Period 2:";
+    cout << "\nEnter Start Date:\n\n";
+    period2.start = dmy::readDate();
+    cout << "\nEnter End Date:\n";
+    period2.end = dmy::readDate();
+
+    printf("\n\nOverlap Days Count Is: %d\n", countOverlapDays(period1, period2));
+         
+    return 0;
+}

@@ -1,0 +1,40 @@
+bool isLastDayInMonth(stDate date)
+{
+    return (date.day == numOfDaysInMonth(date.year, date.month));
+}
+
+bool isLastMonthInYear(short month)
+{
+    return (month == 12);
+}
+
+stDate increaseDateByOneDay(stDate date)
+{
+    if (isLastDayInMonth(date))
+    {
+        if (isLastMonthInYear(date.month))
+        {
+            date.year++;
+            date.month = 1;
+            date.day = 1;
+        }
+        else
+        {
+            date.month++;
+            date.day = 1;
+        }
+    }
+    else
+    {
+        date.day++;
+    }
+    return date;
+}
+
+int main()
+{ 
+    stDate date1 = readDate();
+    date1 = increaseDateByOneDay(date1);
+    printf("\nDate after adding one day is: %d/%d/%d\n", date1.day, date1.month, date1.year);
+    return 0;
+}

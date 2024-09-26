@@ -1,0 +1,141 @@
+dmy::stDate increaseDateByXDays(dmy::stDate date, int numOfDays)
+{
+    for (int i = 1; i <= numOfDays; i++)
+    {
+        date = dmy::increaseDateByOneDay(date);
+    }
+    return date;
+}
+
+dmy::stDate increaseDateByOneWeek(dmy::stDate date)
+{
+    for (int i = 1; i < 8; i++)
+    {
+        date = dmy::increaseDateByOneDay(date);
+    }
+    return date;
+}
+
+dmy::stDate increaseDateByXWeeks(dmy::stDate date, short numOfWeeks)
+{
+    for (int i = 1; i <= numOfWeeks; i++)
+    {
+        date = increaseDateByOneWeek(date);
+    }
+    return date;
+}
+
+dmy::stDate increaseDateByOneMonth(dmy::stDate date)
+{
+    if (dmy::isLastMonthInYear(date.month))
+    {
+        date.year++;
+        date.month = 1;
+    }
+    else
+    {
+        date.month++;
+        if (date.day > dmy::numOfDaysInMonth(date.year, date.month))
+            date.day = dmy::numOfDaysInMonth(date.year, date.month);
+    }
+    return date;
+}
+
+dmy::stDate increaseDateByXMonths(dmy::stDate date, short numOfMonths)
+{
+    for (int i = 1; i <= numOfMonths; i++)
+    {
+        date = increaseDateByOneMonth(date);
+    }
+    return date;
+}
+
+dmy::stDate increaseDateByOneYear(dmy::stDate date)
+{
+    date.year++;
+    return date;
+}
+
+dmy::stDate increaseDateByXYears(dmy::stDate date, short numOfYears)
+{
+    for (int i = 1; i <= numOfYears; i++)
+    {
+        date = increaseDateByOneYear(date);
+    }
+    return date;
+}
+
+dmy::stDate increaseDateByXYearsFaster(dmy::stDate date, short numOfYears)
+{
+    date.year += numOfYears;
+    return date;
+}
+
+dmy::stDate increaseDateByOneDecade(dmy::stDate date)
+{
+    date.year += 10;
+    return date;
+}
+
+dmy::stDate increaseDateByXDecades(dmy::stDate date, short numOfDecades)
+{
+    for (int i = 1; i <= numOfDecades; i++)
+    {
+        date = increaseDateByOneDecade(date);
+    }
+    return date;
+}
+
+dmy::stDate increaseDateByXDecadesFaster(dmy::stDate date, short numOfDecades)
+{
+    date.year += (numOfDecades * 10);
+    return date;
+}
+
+dmy::stDate increaseDateByOneCentury(dmy::stDate date)
+{
+    date.year += 100;
+    return date;
+}
+
+dmy::stDate increaseDateByOneMillennium(dmy::stDate date)
+{
+    date.year += 1000;
+    return date;
+}
+
+int main()
+{ 
+    dmy::stDate date = dmy::readDate();
+
+    cout << "\nDate After : \n\n";
+    date = dmy::increaseDateByOneDay(date);
+    printf("01- Adding one day is : %d/%d/%d\n", date.day, date.month, date.year);
+    date = increaseDateByXDays(date, 10);
+    printf("02- Adding %d days is : %d/%d/%d\n", 10, date.day, date.month, date.year);
+    date = increaseDateByOneWeek(date);
+    printf("03- Adding one week is : %d/%d/%d\n", date.day, date.month, date.year);
+    date = increaseDateByXWeeks(date, 10);
+    printf("04- Adding %d weeks is : %d/%d/%d\n", 10, date.day, date.month, date.year);
+    date = increaseDateByOneMonth(date);
+    printf("05- Adding one month is : %d/%d/%d\n", date.day, date.month, date.year);
+    date = increaseDateByXMonths(date, 5);
+    printf("06- Adding %d months is : %d/%d/%d\n", 5, date.day, date.month, date.year);
+    date = increaseDateByOneYear(date);
+    printf("07- Adding one year is : %d/%d/%d\n", date.day, date.month, date.year);
+    date = increaseDateByXYears(date, 10);
+    printf("08- Adding %d years is : %d/%d/%d\n", 10, date.day, date.month, date.year);
+    date = increaseDateByXYearsFaster(date, 10);
+    printf("09- Adding %d years (faster) is : %d/%d/%d\n", 10, date.day, date.month, date.year);
+    date = increaseDateByOneDecade(date);
+    printf("10- Adding one decade is : %d/%d/%d\n", date.day, date.month, date.year);
+    date = increaseDateByXDecades(date, 10);
+    printf("11- Adding %d decades is : %d/%d/%d\n", 10, date.day, date.month, date.year);
+    date = increaseDateByXDecadesFaster(date, 10);
+    printf("12- Adding %d decades (faster) is : %d/%d/%d\n", 10, date.day, date.month, date.year);
+    date = increaseDateByOneCentury(date);
+    printf("13- Adding one century is : %d/%d/%d\n", date.day, date.month, date.year);
+    date = increaseDateByOneMillennium(date);
+    printf("14- Adding one millennium is : %d/%d/%d\n", date.day, date.month, date.year);
+    return 0;
+}

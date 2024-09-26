@@ -1,0 +1,282 @@
+#include <iostream>
+#include "myTestLib.h"
+
+using namespace std;
+
+void mainMenuScreen();
+void quickWithdrawScreen();
+
+enum enMainMenueChoise
+{QuickWithdraw = 1, NormalWithdraw = 2,
+ Deposite = 3, CheckBalance = 4, Logout = 5};
+
+struct stBankClients
+{
+    string accountNum, pinCode, name, phone;
+    double accountBalance;
+};
+
+const string clientsFileName = "bankClients.txt";
+
+stBankClients currentClient;
+
+short readNumInRange(short from, short to)
+{
+    short n;
+    cin >> n;
+    while (n < from || n > to)
+    {
+        printf("\nPlease enter a number from %d to %d: ", from, to);
+        cin >> n;
+    }
+    return n;
+}
+
+stBankClients convertLineToRecord(string line, string delim)
+{
+    stBankClients client;
+    vector<string> vString = tes::splitString(line, delim);
+    client.accountNum = vString.at(0);
+    client.pinCode = vString.at(1);
+    client.name = vString.at(2);
+    client.phone = vString.at(3);
+    client.accountBalance = stod(vString.at(4));
+    return client;
+}
+
+vector<stBankClients> loadClientsDataFromFile(string fileName)
+{
+    vector<stBankClients> vClients;
+    fstream file;
+    string line;
+    stBankClients client;
+    file.open(clientsFileName, ios::in);
+    if (file.is_open())
+    {
+        while (getline(file, line))
+        {
+            client = convertLineToRecord(line, "#//#");
+            vClients.push_back(client);
+        }
+        file.close();
+    }
+    return vClients;
+}
+
+string convertRecordToLine(stBankClients client, string delim = "#//#")
+{
+    string line = "";
+
+    line += client.accountNum + delim + client.pinCode + delim + client.name + delim;
+    line += client.phone + delim + to_string(client.accountBalance);
+    return line;
+}
+
+void saveClientsInFile(string fileName, vector<stBankClients> vClients)
+{
+    fstream file;
+    file.open(fileName, ios::out);
+    string dataLine = "";
+    if (file.is_open())
+    {
+        for (stBankClients& c : vClients)
+        {
+            dataLine = convertRecordToLine(c);
+            file << dataLine << endl;
+        }
+    }
+}
+
+bool isClientExist(string accNum, string pinCode, stBankClients& client)
+{
+    vector<stBankClients> vClients = loadClientsDataFromFile(clientsFileName);
+    for (stBankClients& c : vClients)
+    {
+        if (c.accountNum == accNum && c.pinCode == pinCode)
+        {
+            client = c;
+            return true;
+        }
+    }
+    return false;
+}
+
+void printTitle(string title)
+{
+    cout << "\n------------------------------------------\n";
+    cout << "\t" << title;
+    cout << "\n------------------------------------------\n";
+}
+
+void confirmTransaction(int moneyAmount, stBankClients& client)
+{
+    vector<stBankClients> vClients = loadClientsDataFromFile(clientsFileName);
+    char confirmTransaction = 'n';
+    cout << "\nAre you sure do you want to perform this transaction?y/n? ";
+    cin >> confirmTransaction;
+    if (tolower(confirmTransaction) == 'y')
+    {
+        client.accountBalance += moneyAmount;
+        for (stBankClients& c : vClients)
+        {
+            if (c.accountNum == client.accountNum)
+            {
+                c.accountBalance += moneyAmount;
+                break;
+            }
+        }
+        saveClientsInFile(clientsFileName, vClients);
+        cout << "\nDone Successfully, your new balance is "
+            << client.accountBalance << endl;
+    }
+}
+
+void quickWithdrawProcess(stBankClients& client)
+{  
+    short withdrawValues[] = { 0,20,50,100,200,400,600,800,1000 };
+    short value = 0;
+    cout << "Choose what withdraw amount from [1] to [8]? ";
+    value = readNumInRange(1, 9);
+    if (value == 9)
+        return;
+    if (withdrawValues[value] > client.accountBalance)
+    {
+        cout << "\nThe amount is exceeds your balance, please enter another amount.";
+        cout << "\n\nPress any key to continue...";
+        system("pause>0");
+        quickWithdrawScreen();
+    }
+    else
+    {
+        confirmTransaction(withdrawValues[value] * -1, client);
+    }
+}
+
+void quickWithdrawScreen()
+{
+    system("cls");
+    printTitle("Quick Withdraw");
+    cout << "\t[1] 20      [2] 50\n";
+    cout << "\t[3] 100     [4] 200\n";
+    cout << "\t[5] 400     [6] 600\n";
+    cout << "\t[7] 800     [8] 1000\n";
+    cout << "\t[9] Exit";
+    cout << "\n------------------------------------------\n";
+    cout << "Your Balance Is " << currentClient.accountBalance << endl;
+    quickWithdrawProcess(currentClient);
+}
+
+void normalWithdrawScreen()
+{
+    int withdrawValue = 0;
+    system("cls");
+    printTitle("Normal Withdraw");
+    withdrawValue = tes::readPositiveNum("Enter an amount multiple of 5's?");
+    while (withdrawValue % 5 != 0)
+    {
+        system("cls");
+        printTitle("Normal Withdraw");
+        withdrawValue = tes::readPositiveNum("Enter an amount multiple of 5's?");
+    }
+    if (withdrawValue > currentClient.accountBalance)
+    {
+        cout << "\nThe amount is exceeds your balance, please enter another amount.";
+        cout << "\n\nPress any key to continue...";
+        system("pause>0");
+        normalWithdrawScreen();
+    }
+    else
+    {
+        confirmTransaction(withdrawValue * -1, currentClient);
+    }
+}
+
+void depositeScreen()
+{
+    system("cls");
+    printTitle("Deposite Screen");
+    int depositAmount = tes::readPositiveNum("Enter a positive deposite amount");
+    confirmTransaction(depositAmount, currentClient);
+}
+
+void checkBalanceScreen()
+{
+    system("cls");
+    printTitle("Check Balance Screen");
+    cout << "\nYour balance is " << currentClient.accountBalance << endl;
+}
+
+void loginScreen()
+{
+    system("cls");
+    printTitle("Login Screen");
+    cout << "\nEnter account number? ";
+    getline(cin >> ws, currentClient.accountNum);
+    cout << "Enter PIN code? ";
+    getline(cin, currentClient.pinCode);
+    while (!isClientExist(currentClient.accountNum, currentClient.pinCode, currentClient))
+    {
+        system("cls");
+        printTitle("Login Screen");
+        cout << "Invalid account number/PIN code!\n";
+        cout << "Enter account number? ";
+        getline(cin, currentClient.accountNum);
+        cout << "Enter PIN code? ";
+        getline(cin, currentClient.pinCode);
+    }
+    mainMenuScreen();
+}
+
+void goBackToMainMenu()
+{
+    cout << "\n\nPress any key to go back to main menu...";
+    system("pause>0");
+    mainMenuScreen();
+}
+
+void performMainMenuChoise(enMainMenueChoise choise, stBankClients& client)
+{
+    switch (choise)
+    {
+    case enMainMenueChoise::QuickWithdraw:
+        quickWithdrawScreen();
+        goBackToMainMenu();
+        break;
+    case enMainMenueChoise::NormalWithdraw:
+        normalWithdrawScreen();
+        goBackToMainMenu();
+        break;
+    case enMainMenueChoise::Deposite:
+        depositeScreen();
+        goBackToMainMenu();
+        break;
+    case enMainMenueChoise::CheckBalance:
+        checkBalanceScreen();
+        goBackToMainMenu();
+        break;
+    case enMainMenueChoise::Logout:
+        loginScreen();
+    }
+}
+
+void mainMenuScreen()
+{
+    system("cls");
+    cout << "\n=====================================================================\n";
+    cout << "\t\t\tATM Main Menu Screen";
+    cout << "\n=====================================================================\n";
+    cout << "\t[1] Quick Withdraw.\n";
+    cout << "\t[2] Normal Withdraw.\n";
+    cout << "\t[3] Deposite.\n";
+    cout << "\t[4] Check Balance.\n";
+    cout << "\t[5] Logout";
+    cout << "\n=====================================================================\n";
+    cout << "Choose what do you want to do? [1 to 5]? ";
+    performMainMenuChoise((enMainMenueChoise)readNumInRange(1, 5), currentClient);
+}
+
+int main()
+{
+    loginScreen();
+    return 0;
+}

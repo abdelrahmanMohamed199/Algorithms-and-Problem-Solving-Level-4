@@ -1,0 +1,27 @@
+short numOfDaysInMonth(short year, short month)
+{
+    if (month < 1 || month > 12)
+        return 0;
+    short numOfDays[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
+    return month == 2 ? (tes::isLeapYear(year) ? 29 : 28) : numOfDays[month];
+}
+
+short totalDaysFromTheBeginningOfTheYear(short day, short month, short year)
+{
+    short totalDays = day;
+    for (int i = 1; i < month; i++)
+    {
+        totalDays += numOfDaysInMonth(year, i);
+    }
+    return totalDays;
+}
+
+int main()
+{ 
+    short day = tes::readNum("Please enter a day");
+    short month = tes::readNum("Please enter a month");
+    short year = tes::readNum("Please enter a year?"); 
+    short totalDays = totalDaysFromTheBeginningOfTheYear(day, month, year);
+    printf("\nNumber of days from the beginning of the year is %d", totalDays);
+    return 0;
+}
